@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
+import "forge-std/console2.sol";
 import "../AoCUtils.sol";
 
-contract Day01 {
+contract Day0101 {
     function answer(string memory input) public pure returns (uint256) {
         string[] memory lines = AoCUtils.stringToArray(input, "\n");
 
@@ -16,7 +17,7 @@ contract Day01 {
         for (uint256 i = 0; i <= lines.length; i++) {
             // beginning of new group or end of input
             if (i == lines.length || bytes(lines[i]).length == 0) {
-                if (curSum > maxSum) {
+                if (curSum >= maxSum) {
                     maxSum = curSum;
                     maxIdx = curIdx;
                 }
@@ -30,6 +31,6 @@ contract Day01 {
             curSum = curSum + calories;
         }
 
-        return maxIdx + 1;
+        return maxSum;
     }
 }
