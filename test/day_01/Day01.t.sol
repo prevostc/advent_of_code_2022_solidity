@@ -12,7 +12,10 @@ contract Day01Test is Test {
     }
 
     function testExample1() public {
-        int256 answer = day01.answer("1000\n2000\n3000\n\n4000\n\n5000\n6000\n\n7000\n8000\n9000\n\n10000");
+        string memory input = "1000\n2000\n3000\n\n4000\n\n5000\n6000\n\n7000\n8000\n9000\n\n10000";
+        emit log_string(input);
+        uint256 answer = day01.answer(input);
+        emit log_uint(answer);
         assertEq(answer, 4);
     }
 }
