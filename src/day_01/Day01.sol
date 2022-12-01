@@ -1,36 +1,11 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import "solidity-stringutils/strings.sol";
+import "../AoCUtils.sol";
 
 contract Day01 {
-    using strings for *;
-
-    function _stringToArray(string memory input, string memory delim) public pure returns (string[] memory) {
-        strings.slice memory stringSlice = input.toSlice();
-        strings.slice memory delimeterSlice = delim.toSlice();
-        string[] memory parts = new string[](stringSlice.count(delimeterSlice));
-        for (uint256 i = 0; i < parts.length; i++) {
-            parts[i] = stringSlice.split(delimeterSlice).toString();
-        }
-        return parts;
-    }
-
-    // https://ethereum.stackexchange.com/a/132434/90011
-    function _stringToUint(string memory s) public pure returns (uint256) {
-        bytes memory b = bytes(s);
-        uint256 result = 0;
-        for (uint256 i = 0; i < b.length; i++) {
-            uint256 c = uint256(uint8(b[i]));
-            if (c >= 48 && c <= 57) {
-                result = result * 10 + (c - 48);
-            }
-        }
-        return result;
-    }
-
     function answer(string memory input) public pure returns (uint256) {
-        string[] memory lines = _stringToArray(input, "\n");
+        string[] memory lines = AoCUtils.stringToArray(input, "\n");
 
         uint256 maxSum = 0;
         uint256 maxIdx = 0;
@@ -51,7 +26,7 @@ contract Day01 {
             }
 
             // otherwise, keep consuming the group
-            uint256 calories = _stringToUint(lines[i]);
+            uint256 calories = AoCUtils.stringToUint(lines[i]);
             curSum = curSum + calories;
         }
 
