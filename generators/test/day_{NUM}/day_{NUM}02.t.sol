@@ -15,7 +15,7 @@ contract Day{NUM}Test is Test {
     function test_Day{NUM}02_Example1() public {
         string memory input = "";
         emit log_string(input);
-        uint256 answer = day{NUM}.answer(input);
+        {TANS} answer = day{NUM}.answer(input);
         emit log_uint(answer);
         assertEq(answer, 15);
     }
@@ -23,7 +23,7 @@ contract Day{NUM}Test is Test {
     function test_Day{NUM}02_MainChallenge() public {
         string memory input = "";
         //emit log_string(input);
-        uint256 answer = day{NUM}.answer(input);
+        {TANS} answer = day{NUM}.answer(input);
         console2.log("answer", answer);
         assertEq(true, true); // no spoilers
     }

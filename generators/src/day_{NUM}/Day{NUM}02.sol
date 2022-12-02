@@ -5,7 +5,7 @@ import "forge-std/console2.sol";
 import "../AoCUtils.sol";
 
 contract Day{NUM}02 {
-    function answer(string memory input) public view returns (uint256) {
+    function answer(string memory input) public view returns ({TANS}) {
         return 0;
     }
 }
