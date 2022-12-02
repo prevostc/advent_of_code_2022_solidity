@@ -6,10 +6,6 @@ import "solidity-stringutils/strings.sol";
 library AoCUtils {
     using strings for *;
 
-    function stringAppend(string memory a, string memory b) internal pure returns (string memory) {
-        return string(abi.encodePacked(a, b));
-    }
-
     function stringToArray(string memory input, string memory delim) public pure returns (string[] memory) {
         strings.slice memory stringSlice = input.toSlice();
         strings.slice memory delimeterSlice = delim.toSlice();

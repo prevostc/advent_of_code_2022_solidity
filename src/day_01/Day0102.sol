@@ -6,7 +6,7 @@ import "../AoCUtils.sol";
 
 contract Day0102 {
     function answer(string memory input) public view returns (uint256) {
-        input = AoCUtils.stringAppend(input, "\n\n");
+        input = string.concat(input, "\n\n");
         string[] memory lines = AoCUtils.stringToArray(input, "\n");
 
         // do a very inefficient sum by group and then find the max
