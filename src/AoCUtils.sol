@@ -13,7 +13,7 @@ library AoCUtils {
     function stringToArray(string memory input, string memory delim) public pure returns (string[] memory) {
         strings.slice memory stringSlice = input.toSlice();
         strings.slice memory delimeterSlice = delim.toSlice();
-        string[] memory parts = new string[](stringSlice.count(delimeterSlice));
+        string[] memory parts = new string[](stringSlice.count(delimeterSlice) + 1);
         for (uint256 i = 0; i < parts.length; i++) {
             parts[i] = stringSlice.split(delimeterSlice).toString();
         }
