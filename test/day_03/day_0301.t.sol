@@ -12,30 +12,6 @@ contract Day0301Test is Test {
         day03 = new Day0301();
     }
 
-    function test_Day0301_ToObjectCode() public {
-        assertEq(uint64(ObjectCode.unwrap(ObjectCodeLib.fromChar("a"))), 0x0000000000000001);
-        assertEq(uint64(ObjectCode.unwrap(ObjectCodeLib.fromChar("b"))), 0x0000000000000001 << 1);
-        assertEq(uint64(ObjectCode.unwrap(ObjectCodeLib.fromChar("c"))), 0x0000000000000001 << 2);
-        assertEq(uint64(ObjectCode.unwrap(ObjectCodeLib.fromChar("A"))), 0x0000000000000001 << 26);
-        assertEq(uint64(ObjectCode.unwrap(ObjectCodeLib.fromChar("Z"))), 0x0000000000000001 << 51);
-    }
-
-    function test_Day0301_SumPriority() public {
-        assertEq(ObjectCodeLib.sumPriority(ObjectCodeLib.fromChar("a")), 1);
-        assertEq(ObjectCodeLib.sumPriority(ObjectCodeLib.fromChar("b")), 2);
-        assertEq(ObjectCodeLib.sumPriority(ObjectCodeLib.fromChar("A")), 27);
-        assertEq(ObjectCodeLib.sumPriority(ObjectCodeLib.fromChar("Z")), 52);
-
-        ObjectCode a = ObjectCodeLib.fromChar("a");
-        ObjectCode b = ObjectCodeLib.fromChar("b");
-        ObjectCode A = ObjectCodeLib.fromChar("A");
-        ObjectCode Z = ObjectCodeLib.fromChar("Z");
-
-        assertEq(ObjectCodeLib.sumPriority(ObjectCodeLib.or(a, b)), 3);
-        assertEq(ObjectCodeLib.sumPriority(ObjectCodeLib.or(a, A)), 28);
-        assertEq(ObjectCodeLib.sumPriority(ObjectCodeLib.or(ObjectCodeLib.or(a, A), Z)), 80);
-    }
-
     function test_Day0301_Example1() public {
         string memory input =
             "vJrwpWtwJgWrhcsFMMfFFhFp\njqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL\nPmmdzqPrVvPwwTWBwg\nwMqvLMZHhHMvwLHjbvcjnnSBnvTQFn\nttgJtRGJQctTZtZT\nCrZsJsPPZsGzwwsLwLmpwMDw";
