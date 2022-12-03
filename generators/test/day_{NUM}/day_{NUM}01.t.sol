@@ -5,7 +5,7 @@ import "forge-std/console2.sol";
 import "forge-std/Test.sol";
 import "../../src/day_{NUM}/Day{NUM}01.sol";
 
-contract Day{NUM}Test is Test {
+contract Day{NUM}01Test is Test {
     Day{NUM}01 public day{NUM};
 
     function setUp() public {
