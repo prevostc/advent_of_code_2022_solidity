@@ -1,14 +1,16 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
+import "../AoCUtils.sol";
 // let's match items to bits, just to practice some bit operation in solidity
 // so we map letters to uint64 (64 bits) where each bit represents a letter
 // Ex: 0b001 is a, 0b010 is b, 0b100 is c, etc
+
 type ObjectCode is bytes8; // 64 bits
 
 library ObjectCodeLib {
     ObjectCode constant EMPTY = ObjectCode.wrap(bytes8(0x0000000000000000));
-    ObjectCode constant FULL = ObjectCode.wrap(bytes8(0x1111111111111111));
+    ObjectCode constant FULL = ObjectCode.wrap(bytes8(0xFFFFFFFFFFFFFFFF));
     bytes8 constant ONE = bytes8(0x0000000000000001);
     uint8 constant codes_a = uint8(bytes1("a"));
     uint8 constant codes_z = uint8(bytes1("z"));
@@ -60,5 +62,9 @@ library ObjectCodeLib {
             idx++;
         }
         return sum;
+    }
+
+    function toString(ObjectCode a) internal pure returns (string memory) {
+        return AoCUtils.toBinaryRepresentation(bytes(abi.encodePacked(ObjectCode.unwrap(a))));
     }
 }

@@ -6,7 +6,7 @@ import "../AoCUtils.sol";
 import "./ObjectCodeLib.sol";
 
 contract Day0302 {
-    function answer(string memory input) public view returns (uint256) {
+    function answer(string memory input) public pure returns (uint256) {
         string[] memory lines = AoCUtils.stringToArray(input, "\n");
 
         uint256 sum = 0;
@@ -15,9 +15,9 @@ contract Day0302 {
         for (uint256 g = 0; g < groupCount; g++) {
             uint256 groupStart = g * 3;
             ObjectCode groupCode = ObjectCodeLib.FULL;
+
             for (uint256 l = groupStart; l < groupStart + 3; l++) {
                 bytes memory line = bytes(lines[l]);
-                console2.log(lines[l]);
 
                 // find all items in this rucksack
                 ObjectCode elfCode = ObjectCodeLib.EMPTY;
