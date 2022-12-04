@@ -3,21 +3,7 @@ pragma solidity ^0.8.13;
 
 import "forge-std/console2.sol";
 import "../AoCUtils.sol";
-
-struct Range {
-    uint256 min;
-    uint256 max;
-}
-
-library RangeLib {
-    function fullyContains(Range memory self, Range memory other) internal pure returns (bool) {
-        return self.min <= other.min && self.max >= other.max;
-    }
-
-    function isFullyContainedBy(Range memory self, Range memory other) internal pure returns (bool) {
-        return fullyContains(other, self);
-    }
-}
+import "./RangeLib.sol";
 
 contract Day0401 {
     function answer(string memory input) public pure returns (uint256) {
