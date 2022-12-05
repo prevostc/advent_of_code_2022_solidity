@@ -18,6 +18,30 @@ contract Day02Test is Test {
         assertEq(parts[2], "C Z");
     }
 
+    function test_AoCUtils_stringToArrayEmptyDelimiter() public {
+        string memory input = "ABCDE";
+        emit log_string(input);
+        string[] memory parts = AoCUtils.stringToChars(input);
+        assertEq(parts.length, 5);
+        assertEq(parts[0], "A");
+        assertEq(parts[1], "B");
+        assertEq(parts[2], "C");
+    }
+
+    function test_AoCUtils_stringStartsWith() public {
+        string memory input = "A Y\nB X\nC Z";
+        assertEq(AoCUtils.stringStartsWith(input, "A Y"), true);
+        assertEq(AoCUtils.stringStartsWith(input, "A X"), false);
+    }
+
+    function test_AoCUtils_stringJoin() public {
+        string[] memory input = new string[](3);
+        input[0] = "A";
+        input[1] = "B";
+        input[2] = "C";
+        assertEq(AoCUtils.stringJoin(input, "-"), "A-B-C");
+    }
+
     function test_AoCUtils_printBinary() public {
         assertEq(
             AoCUtils.toBinaryRepresentation(AoCUtils.uint32ToBytes(uint32(0x00000000))),

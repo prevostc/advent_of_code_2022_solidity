@@ -9,11 +9,42 @@ library AoCUtils {
     function stringToArray(string memory input, string memory delim) public pure returns (string[] memory) {
         strings.slice memory stringSlice = input.toSlice();
         strings.slice memory delimeterSlice = delim.toSlice();
+        assert(delimeterSlice.len() == 1);
         string[] memory parts = new string[](stringSlice.count(delimeterSlice) + 1);
         for (uint256 i = 0; i < parts.length; i++) {
             parts[i] = stringSlice.split(delimeterSlice).toString();
         }
         return parts;
+    }
+
+    function stringStartsWith(string memory input, string memory prefix) public pure returns (bool) {
+        strings.slice memory stringSlice = input.toSlice();
+        strings.slice memory prefixSlice = prefix.toSlice();
+        return stringSlice.startsWith(prefixSlice);
+    }
+
+    function stringToChars(string memory input) public pure returns (string[] memory) {
+        strings.slice memory stringSlice = input.toSlice();
+        string[] memory chars = new string[](stringSlice.len());
+        for (uint256 i = 0; i < chars.length; i++) {
+            chars[i] = stringSlice.nextRune().toString();
+        }
+        return chars;
+    }
+
+    function stringEquals(string memory a, string memory b) public pure returns (bool) {
+        return keccak256(abi.encodePacked((a))) == keccak256(abi.encodePacked((b)));
+    }
+
+    function stringJoin(string[] memory input, string memory delim) public pure returns (string memory) {
+        string memory joined = "";
+        for (uint256 i = 0; i < input.length; i++) {
+            if (i > 0) {
+                joined = string.concat(joined, delim);
+            }
+            joined = string.concat(joined, input[i]);
+        }
+        return joined;
     }
 
     // https://ethereum.stackexchange.com/a/132434/90011
