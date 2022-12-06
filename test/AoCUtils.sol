@@ -5,7 +5,7 @@ import "forge-std/console2.sol";
 import "forge-std/Test.sol";
 import "../src/AoCUtils.sol";
 
-contract Day02Test is Test {
+contract AoCUtilsTest is Test {
     function setUp() public {}
 
     function test_AoCUtils_stringToArray() public {

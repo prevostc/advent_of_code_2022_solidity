@@ -3,7 +3,7 @@ pragma solidity ^0.8.13;
 
 import "forge-std/console2.sol";
 import "../AoCUtils.sol";
-import "./ObjectCodeLib.sol";
+import "../BitSetLib.sol";
 
 contract Day0301 {
     function answer(string memory input) public pure returns (uint256) {
@@ -13,19 +13,19 @@ contract Day0301 {
         for (uint256 l = 0; l < lines.length; l++) {
             bytes memory line = bytes(lines[l]);
             uint256 midpoint = line.length / 2;
-            ObjectCode left = ObjectCodeLib.EMPTY;
-            ObjectCode right = ObjectCodeLib.EMPTY;
+            BitSet left = BitSetLib.EMPTY;
+            BitSet right = BitSetLib.EMPTY;
             for (uint256 c = 0; c < line.length; c++) {
-                ObjectCode code = ObjectCodeLib.fromBytes1(line[c]);
+                BitSet code = BitSetLib.fromBytes1(line[c]);
                 if (c < midpoint) {
-                    left = ObjectCodeLib.or(left, code);
+                    left = BitSetLib.or(left, code);
                 } else {
-                    right = ObjectCodeLib.or(right, code);
+                    right = BitSetLib.or(right, code);
                 }
             }
 
-            ObjectCode intersection = ObjectCodeLib.and(left, right);
-            sum += ObjectCodeLib.sumPriority(intersection);
+            BitSet intersection = BitSetLib.and(left, right);
+            sum += BitSetLib.day03_sumPriority(intersection);
         }
         return sum;
     }
