@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import "./AoCUtils.sol";
+import "./BytesLib.sol";
 
 // a bitset is a set of bits, where each bit represents a number
 // if set to 1, the number is in the set and if set to 0, the number is not in the set
@@ -9,6 +9,8 @@ import "./AoCUtils.sol";
 type BitSet is bytes8; // 64 bits
 
 library BitSetLib {
+    using BytesLib for bytes;
+
     BitSet constant EMPTY = BitSet.wrap(bytes8(0x0000000000000000));
     BitSet constant FULL = BitSet.wrap(bytes8(0xFFFFFFFFFFFFFFFF));
     bytes8 constant ONE = bytes8(0x0000000000000001);
@@ -64,11 +66,7 @@ library BitSetLib {
         return sum;
     }
 
-    function toString(BitSet a) internal pure returns (string memory) {
-        return AoCUtils.toBinaryRepresentation(bytes(abi.encodePacked(BitSet.unwrap(a))));
-    }
-
-    function day03_sumPriority(BitSet a) internal pure returns (uint256) {
+    function sumOneIdx(BitSet a) internal pure returns (uint256) {
         uint256 sum = 0;
         uint256 idx = 1;
         bytes8 b = BitSet.unwrap(a);
@@ -80,5 +78,9 @@ library BitSetLib {
             idx++;
         }
         return sum;
+    }
+
+    function toString(BitSet a) internal pure returns (string memory) {
+        return bytes(abi.encodePacked(BitSet.unwrap(a))).toBinary();
     }
 }

@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import "forge-std/console.sol";
 import {StringLib} from "../StringLib.sol";
 import "./MultiStack.sol";
 
@@ -54,12 +53,12 @@ contract Day0502 is MultiStack {
         }
 
         // now create the answer
-        string memory answer = "";
+        string memory res = "";
         for (uint256 i = 0; i < stackCount(); i++) {
             string memory stackTopElement = getStackTopElement(i);
-            answer = string.concat(answer, stackTopElement);
+            res = string.concat(res, stackTopElement);
         }
 
-        return answer;
+        return res;
     }
 }

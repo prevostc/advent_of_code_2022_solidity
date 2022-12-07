@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import "forge-std/console.sol";
 import {StringLib} from "../StringLib.sol";
 import "../BitSetLib.sol";
 
 contract Day0301 {
+    using BitSetLib for BitSet;
     using StringLib for string;
 
     function answer(string memory input) public pure returns (uint256) {
@@ -20,14 +20,14 @@ contract Day0301 {
             for (uint256 c = 0; c < line.length; c++) {
                 BitSet code = BitSetLib.fromBytes1(line[c]);
                 if (c < midpoint) {
-                    left = BitSetLib.or(left, code);
+                    left = left.or(code);
                 } else {
-                    right = BitSetLib.or(right, code);
+                    right = right.or(code);
                 }
             }
 
             BitSet intersection = BitSetLib.and(left, right);
-            sum += BitSetLib.day03_sumPriority(intersection);
+            sum += BitSetLib.sumOneIdx(intersection);
         }
         return sum;
     }

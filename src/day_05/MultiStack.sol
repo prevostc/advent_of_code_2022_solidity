@@ -1,4 +1,4 @@
-import "forge-std/console.sol";
+import "forge-std/console2.sol";
 import {StringArrayLib} from "../StringArrayLib.sol";
 
 contract MultiStack {
@@ -47,10 +47,10 @@ contract MultiStack {
     }
 
     function _printDebugStacks() internal view {
-        console.log("STACKS:");
+        console2.log("STACKS:");
         for (uint256 i = 0; i < stackCount(); i++) {
             string[] memory stack = stacks[i];
-            console.log("stacks[%d]: %s", i, stack.join(","));
+            console2.log("stacks[%d]: %s", i, stack.join(","));
         }
     }
 }

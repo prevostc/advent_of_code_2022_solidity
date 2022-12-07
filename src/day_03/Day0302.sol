@@ -7,6 +7,7 @@ import "../BitSetLib.sol";
 
 contract Day0302 {
     using StringLib for string;
+    using BitSetLib for BitSet;
 
     function answer(string memory input) public pure returns (uint256) {
         string[] memory lines = input.split("\n");
@@ -24,14 +25,14 @@ contract Day0302 {
                 // find all items in this rucksack
                 BitSet elfCode = BitSetLib.EMPTY;
                 for (uint256 c = 0; c < line.length; c++) {
-                    elfCode = BitSetLib.or(elfCode, BitSetLib.fromBytes1(line[c]));
+                    elfCode = elfCode.or(BitSetLib.fromBytes1(line[c]));
                 }
 
                 // intersect with the group items
-                groupCode = BitSetLib.and(groupCode, elfCode);
+                groupCode = groupCode.and(elfCode);
             }
 
-            sum += BitSetLib.day03_sumPriority(groupCode);
+            sum += BitSetLib.sumOneIdx(groupCode);
         }
         return sum;
     }

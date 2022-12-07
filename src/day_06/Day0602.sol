@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import "forge-std/console.sol";
 import {StringLib} from "../StringLib.sol";
-import "../BitSetLib.sol";
+import {BitSetLib, BitSet} from "../BitSetLib.sol";
 
 contract Day0602 {
     using StringLib for string;
-    // use calldata to be able to use the [:] indexing syntax
+    using BitSetLib for BitSet;
 
+    // use calldata to be able to use the [:] indexing syntax
     function answer(string calldata input) public pure returns (uint256) {
         uint256 len = bytes(input).length;
         uint256 packetSize = 14;
@@ -19,12 +19,10 @@ contract Day0602 {
 
             BitSet oc = BitSetLib.EMPTY;
             for (uint256 j = 0; j < packetSize; j++) {
-                oc = BitSetLib.or(oc, BitSetLib.fromChar(chars[j]));
+                oc = oc.or(BitSetLib.fromChar(chars[j]));
             }
             // not optimal but it works
-            uint256 distinct = BitSetLib.countDistinct(oc);
-            //console2.log("%s : %i", s, distinct);
-            if (distinct == packetSize) {
+            if (oc.countDistinct() == packetSize) {
                 return i + packetSize;
             }
         }
