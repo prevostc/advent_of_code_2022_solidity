@@ -3,9 +3,11 @@ pragma solidity ^0.8.13;
 
 import "../AoCUtils.sol";
 import {StringLib} from "../StringLib.sol";
+import {UintArrayLib} from "../UintArrayLib.sol";
 
 contract Day0102 {
     using StringLib for string;
+    using UintArrayLib for uint256[];
 
     function answer(string memory input) public pure returns (uint256) {
         string[] memory lines = string.concat(input, "\n\n").split("\n");
@@ -36,7 +38,7 @@ contract Day0102 {
             curSum = curSum + calories;
         }
 
-        sums = AoCUtils.sort_uint(sums);
+        sums = sums.sort();
         return sums[sums.length - 1] + sums[sums.length - 2] + sums[sums.length - 3];
     }
 }
