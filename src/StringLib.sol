@@ -31,6 +31,26 @@ library StringLib {
         return stringSlice.startsWith(prefixSlice);
     }
 
+    function substring(string memory self, uint256 start, uint256 end) public pure returns (string memory) {
+        // very inefficient but works
+        string[] memory parts = split(self, "");
+        string memory result = "";
+        for (uint256 i = start; i < end && i < parts.length; i++) {
+            result = string.concat(result, parts[i]);
+        }
+        return result;
+    }
+
+    function substring(string memory self, uint256 start) public pure returns (string memory) {
+        // very inefficient but works
+        string[] memory parts = split(self, "");
+        string memory result = "";
+        for (uint256 i = start; i < parts.length; i++) {
+            result = string.concat(result, parts[i]);
+        }
+        return result;
+    }
+
     function equals(string memory self, string memory b) public pure returns (bool) {
         return keccak256(abi.encodePacked((self))) == keccak256(abi.encodePacked((b)));
     }
