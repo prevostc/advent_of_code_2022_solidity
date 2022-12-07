@@ -1,13 +1,15 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import "forge-std/console2.sol";
+import "forge-std/console.sol";
 import "../AoCUtils.sol";
+import {StringLib} from "../StringLib.sol";
 
 contract Day0102 {
-    function answer(string memory input) public view returns (uint256) {
-        input = string.concat(input, "\n\n");
-        string[] memory lines = AoCUtils.stringToArray(input, "\n");
+    using StringLib for string;
+
+    function answer(string memory input) public pure returns (uint256) {
+        string[] memory lines = string.concat(input, "\n\n").split("\n");
 
         // do a very inefficient sum by group and then find the max
 
@@ -18,7 +20,6 @@ contract Day0102 {
                 groupCount = groupCount + 1;
             }
         }
-        console2.log("groupCount", groupCount);
 
         // get sums by group
         uint256[] memory sums = new uint256[](groupCount);
@@ -26,20 +27,14 @@ contract Day0102 {
         uint256 curIdx = 0;
         for (uint256 i = 0; i < lines.length; i++) {
             if (bytes(lines[i]).length == 0) {
-                console2.log("new Group", curSum, curIdx);
                 sums[curIdx] = curSum;
                 curSum = 0;
                 curIdx = curIdx + 1;
                 continue;
             }
 
-            uint256 calories = AoCUtils.stringToUint(lines[i]);
+            uint256 calories = lines[i].parseUint256();
             curSum = curSum + calories;
-        }
-
-        // find top 3 groups, sum the calories
-        for (uint256 i = 0; i < sums.length; i++) {
-            console2.log("sums", i, sums[i]);
         }
 
         sums = AoCUtils.sort_uint(sums);

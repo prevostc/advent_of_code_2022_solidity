@@ -2,11 +2,13 @@
 pragma solidity ^0.8.13;
 
 import "forge-std/console2.sol";
-import "../AoCUtils.sol";
+import {StringLib} from "../StringLib.sol";
 
 contract Day0101 {
+    using StringLib for string;
+
     function answer(string memory input) public pure returns (uint256) {
-        string[] memory lines = AoCUtils.stringToArray(input, "\n");
+        string[] memory lines = string.concat(input, "\n\n").split("\n");
 
         uint256 maxSum = 0;
         uint256 maxIdx = 0;
@@ -14,9 +16,9 @@ contract Day0101 {
         uint256 curSum = 0;
         uint256 curIdx = 0;
         // split string to iterate
-        for (uint256 i = 0; i <= lines.length; i++) {
-            // beginning of new group or end of input
-            if (i == lines.length || bytes(lines[i]).length == 0) {
+        for (uint256 i = 0; i < lines.length; i++) {
+            // detect end of a group
+            if (bytes(lines[i]).length == 0) {
                 if (curSum >= maxSum) {
                     maxSum = curSum;
                     maxIdx = curIdx;
@@ -27,7 +29,7 @@ contract Day0101 {
             }
 
             // otherwise, keep consuming the group
-            uint256 calories = AoCUtils.stringToUint(lines[i]);
+            uint256 calories = lines[i].parseUint256();
             curSum = curSum + calories;
         }
 

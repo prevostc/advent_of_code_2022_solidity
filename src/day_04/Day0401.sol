@@ -2,25 +2,26 @@
 pragma solidity ^0.8.13;
 
 import "forge-std/console2.sol";
-import "../AoCUtils.sol";
-import "./RangeLib.sol";
+import {StringLib} from "../StringLib.sol";
+import {RangeLib, Range} from "./RangeLib.sol";
 
 contract Day0401 {
+    using StringLib for string;
+    using RangeLib for Range;
+
     function answer(string memory input) public pure returns (uint256) {
-        string[] memory lines = AoCUtils.stringToArray(input, "\n");
+        string[] memory lines = input.split("\n");
 
         uint256 fullyContainedCount = 0;
         for (uint256 i = 0; i < lines.length; i++) {
-            string[] memory parts = AoCUtils.stringToArray(lines[i], ",");
-            string[] memory firstPairParts = AoCUtils.stringToArray(parts[0], "-");
-            string[] memory otherPairParts = AoCUtils.stringToArray(parts[1], "-");
+            string[] memory parts = lines[i].split(",");
+            string[] memory firstPair = parts[0].split("-");
+            string[] memory otherPair = parts[1].split("-");
 
-            Range memory firstRange =
-                Range({min: AoCUtils.stringToUint(firstPairParts[0]), max: AoCUtils.stringToUint(firstPairParts[1])});
-            Range memory otherRange =
-                Range({min: AoCUtils.stringToUint(otherPairParts[0]), max: AoCUtils.stringToUint(otherPairParts[1])});
+            Range memory firstRange = Range({min: firstPair[0].parseUint256(), max: firstPair[1].parseUint256()});
+            Range memory otherRange = Range({min: otherPair[0].parseUint256(), max: otherPair[1].parseUint256()});
 
-            if (RangeLib.fullyContains(firstRange, otherRange) || RangeLib.isFullyContainedBy(firstRange, otherRange)) {
+            if (firstRange.fullyContains(otherRange) || firstRange.isFullyContainedBy(otherRange)) {
                 fullyContainedCount++;
             }
         }

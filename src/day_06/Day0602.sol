@@ -1,19 +1,21 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import "forge-std/console2.sol";
-import "../AoCUtils.sol";
+import "forge-std/console.sol";
+import {StringLib} from "../StringLib.sol";
 import "../BitSetLib.sol";
 
 contract Day0602 {
+    using StringLib for string;
     // use calldata to be able to use the [:] indexing syntax
+
     function answer(string calldata input) public pure returns (uint256) {
         uint256 len = bytes(input).length;
         uint256 packetSize = 14;
 
         for (uint256 i = 0; i < len - (packetSize - 1); i++) {
             string memory s = input[i:i + packetSize];
-            string[] memory chars = AoCUtils.stringToChars(s);
+            string[] memory chars = s.split("");
 
             BitSet oc = BitSetLib.EMPTY;
             for (uint256 j = 0; j < packetSize; j++) {

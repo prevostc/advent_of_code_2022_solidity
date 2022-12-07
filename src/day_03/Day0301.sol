@@ -1,13 +1,15 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import "forge-std/console2.sol";
-import "../AoCUtils.sol";
+import "forge-std/console.sol";
+import {StringLib} from "../StringLib.sol";
 import "../BitSetLib.sol";
 
 contract Day0301 {
+    using StringLib for string;
+
     function answer(string memory input) public pure returns (uint256) {
-        string[] memory lines = AoCUtils.stringToArray(input, "\n");
+        string[] memory lines = input.split("\n");
 
         uint256 sum = 0;
         for (uint256 l = 0; l < lines.length; l++) {

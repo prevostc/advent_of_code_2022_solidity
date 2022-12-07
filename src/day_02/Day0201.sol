@@ -1,10 +1,12 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import "forge-std/console2.sol";
-import "../AoCUtils.sol";
+import "forge-std/console.sol";
+import {StringLib} from "../StringLib.sol";
 
 contract Day0201 {
+    using StringLib for string;
+
     enum Move {
         ROCK,
         PAPER,
@@ -48,23 +50,19 @@ contract Day0201 {
     }
 
     function answer(string memory input) public view returns (uint256) {
-        string[] memory lines = AoCUtils.stringToArray(input, "\n");
+        string[] memory lines = input.split("\n");
 
         // split string to iterate
         uint256 total = 0;
         for (uint256 i = 0; i < lines.length; i++) {
-            console2.log("HERE");
             string memory line = lines[i];
-            console2.log("line:", line);
             // convert to moves
-            string[] memory codes = AoCUtils.stringToArray(line, " ");
-            console2.log("moves:", codes[0], codes[1]);
+            string[] memory codes = line.split(" ");
             Move opponentMove = moveCodes[codes[0]];
             Move myMove = moveCodes[codes[1]];
 
             // get result of the match
             total += getOutcomeScore(myMove, opponentMove) + getShapeScore(myMove);
-            console2.log("total:", total);
         }
 
         return total;
