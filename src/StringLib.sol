@@ -31,6 +31,11 @@ library StringLib {
         return stringSlice.startsWith(prefixSlice);
     }
 
+    function length(string memory self) public pure returns (uint256) {
+        strings.slice memory stringSlice = self.toSlice();
+        return stringSlice.len();
+    }
+
     function substring(string memory self, uint256 start, uint256 end) public pure returns (string memory) {
         // very inefficient but works
         string[] memory parts = split(self, "");
@@ -39,6 +44,10 @@ library StringLib {
             result = string.concat(result, parts[i]);
         }
         return result;
+    }
+
+    function charAt(string memory self, uint256 index) public pure returns (string memory) {
+        return substring(self, index, index + 1);
     }
 
     function substring(string memory self, uint256 start) public pure returns (string memory) {

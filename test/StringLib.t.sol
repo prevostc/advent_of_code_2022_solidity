@@ -52,4 +52,16 @@ contract StringLibTest is Test {
 
         assertEq(input.substring(3), "DE");
     }
+
+    function test_StringLib_length() public {
+        string memory input = "ABCDE";
+        assertEq(input.length(), 5);
+    }
+
+    function test_StringLib_charAt() public {
+        string memory input = "ABCDE";
+        assertEq(input.charAt(0), "A");
+        assertEq(input.charAt(2), "C");
+        assertEq(input.charAt(4), "E");
+    }
 }
