@@ -30,8 +30,15 @@ library AsciiLib {
      */
     function substring(bytes memory self, uint256 start, uint256 end) internal pure returns (string memory) {
         bytes memory result = new bytes(end - start);
-        for (uint256 i = start; i < end; i++) {
-            result[i - start] = self[i];
+        for (uint256 i = start; i < end;) {
+            uint256 idx;
+            unchecked {
+                idx = i - start;
+            }
+            result[idx] = self[i];
+            unchecked {
+                i++;
+            }
         }
         return string(result);
     }
