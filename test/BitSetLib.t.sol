@@ -4,10 +4,10 @@ pragma solidity ^0.8.13;
 import {console2, Test} from "forge-std/Test.sol";
 import {BitSetLib, BitSet} from "../src/BitSetLib.sol";
 
-contract Day03_BitSetLibTest is Test {
+contract BitSetLibTest is Test {
     using BitSetLib for BitSet;
 
-    function test_Day03_BitSetLib_ToBitSet() public {
+    function test_BitSetLib_ToBitSet() public {
         assertEq(uint64(BitSet.unwrap(BitSetLib.fromChar("a"))), 0x0000000000000001);
         assertEq(uint64(BitSet.unwrap(BitSetLib.fromChar("b"))), 0x0000000000000001 << 1);
         assertEq(uint64(BitSet.unwrap(BitSetLib.fromChar("c"))), 0x0000000000000001 << 2);
@@ -15,7 +15,7 @@ contract Day03_BitSetLibTest is Test {
         assertEq(uint64(BitSet.unwrap(BitSetLib.fromChar("Z"))), 0x0000000000000001 << 51);
     }
 
-    function test_Day03_BitSetLib_sumOneIdx() public {
+    function test_BitSetLib_sumOneIdx() public {
         assertEq(BitSetLib.sumOneIdx(BitSetLib.fromChar("a")), 1);
         assertEq(BitSetLib.sumOneIdx(BitSetLib.fromChar("b")), 2);
         assertEq(BitSetLib.sumOneIdx(BitSetLib.fromChar("A")), 27);

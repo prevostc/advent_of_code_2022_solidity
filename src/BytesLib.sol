@@ -3,21 +3,21 @@ pragma solidity ^0.8.13;
 
 library BytesLib {
     // https://ethereum.stackexchange.com/a/13057/90011
-    function fromUint256(uint256 x) public pure returns (bytes memory b) {
+    function fromUint256(uint256 x) internal pure returns (bytes memory b) {
         b = new bytes(32);
         for (uint256 i = 0; i < 32; i++) {
             b[i] = bytes1(uint8(x / (2 ** (8 * (31 - i)))));
         }
     }
 
-    function fromUint32(uint32 x) public pure returns (bytes memory b) {
+    function fromUint32(uint32 x) internal pure returns (bytes memory b) {
         b = new bytes(4);
         for (uint32 i = 0; i < 4; i++) {
             b[i] = bytes1(uint8(x / (2 ** (8 * (3 - i)))));
         }
     }
 
-    function toBinary(bytes memory self) public pure returns (string memory) {
+    function toBinary(bytes memory self) internal pure returns (string memory) {
         string memory result = "0b";
         for (uint256 i = 0; i < self.length; i++) {
             bytes1 b = self[i];

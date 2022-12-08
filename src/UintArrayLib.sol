@@ -2,7 +2,7 @@
 pragma solidity ^0.8.13;
 
 library UintArrayLib {
-    function sort(uint256[] memory self) public pure returns (uint256[] memory) {
+    function sort(uint256[] memory self) internal pure returns (uint256[] memory) {
         _quick_sort_uint(self, int256(0), int256(self.length - 1));
         return self;
     }

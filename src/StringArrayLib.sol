@@ -7,7 +7,7 @@ library StringArrayLib {
     using StringLib for string;
 
     // self being the delimiter, like in python
-    function join(string[] memory self, string memory delim) public pure returns (string memory) {
+    function join(string[] memory self, string memory delim) internal pure returns (string memory) {
         string memory joined = "";
         for (uint256 i = 0; i < self.length; i++) {
             if (i > 0) {

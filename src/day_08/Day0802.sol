@@ -1,46 +1,36 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import "forge-std/console2.sol";
-import {StringLib} from "../StringLib.sol";
+import {AsciiLib} from "../AsciiLib.sol";
 
 contract Day0802 {
-    using StringLib for string;
+    using AsciiLib for bytes;
 
-    function answer(string memory input) public view returns (uint256) {
-        string[] memory lines = input.split("\n");
+    function answer(string memory _input) public pure returns (uint256) {
+        bytes memory input = bytes(_input);
 
-        // using any kind of function call makes the code way too slow :(
+        uint256 len = input.length;
+        uint256 width = input.firstLineWidth();
+        uint256 height = len / width;
 
-        uint32 width = uint32(lines[0].length());
-        uint32 height = uint32(lines.length);
-        uint8[] memory treeHeights = new uint8[](width * height);
-
-        console2.log("Loading forest: %s x %s", width, height);
-        // load the struct
-        for (uint32 col = 0; col < width; col++) {
-            for (uint32 row = 0; row < height; row++) {
-                uint8 treeHeight = uint8(lines[row].charAt(col).parseUint256());
-                treeHeights[col + row * width] = treeHeight;
-            }
-        }
+        uint8[] memory treeHeights = input.toUint8Grid(width, height);
 
         // "look" once from each direction then merge the results
         // if it's the first, then it's visible
         // if the current height is higher than the max height, then it is visible
-        uint32[] memory scoreFromLeft = new uint32[](width * height); // should be init from 0
-        uint32[] memory scoreFromTop = new uint32[](width * height); // should be init from 0
-        uint32[] memory scoreFromRight = new uint32[](width * height); // should be init from 0
-        uint32[] memory scoreFromDown = new uint32[](width * height); // should be init from 0
+        uint256[] memory scoreFromLeft = new uint256[](width * height); // should be init from 0
+        uint256[] memory scoreFromTop = new uint256[](width * height); // should be init from 0
+        uint256[] memory scoreFromRight = new uint256[](width * height); // should be init from 0
+        uint256[] memory scoreFromDown = new uint256[](width * height); // should be init from 0
 
         // just brute force it
-        for (uint32 row = 0; row < height; row++) {
-            for (uint32 col = 0; col < width; col++) {
-                uint32 score = 0;
+        for (uint256 row = 0; row < height; row++) {
+            for (uint256 col = 0; col < width; col++) {
+                uint256 score = 0;
                 uint8 treeHeight = treeHeights[col + row * width];
                 // look left-to-right
-                for (int32 c = int32(col) + 1; c > 0 && c < int32(width); c++) {
-                    uint8 h = treeHeights[uint32(c) + row * width];
+                for (int256 c = int256(col) + 1; c > 0 && c < int256(width); c++) {
+                    uint8 h = treeHeights[uint256(c) + row * width];
                     score++;
                     if (h >= treeHeight) {
                         break;
@@ -50,8 +40,8 @@ contract Day0802 {
 
                 score = 0;
                 // look right-to-left
-                for (int32 c = int32(col) - 1; c < int32(width) && c >= 0; c--) {
-                    uint8 h = treeHeights[uint32(c) + row * width];
+                for (int256 c = int256(col) - 1; c < int256(width) && c >= 0; c--) {
+                    uint8 h = treeHeights[uint256(c) + row * width];
                     score++;
                     if (h >= treeHeight) {
                         break;
@@ -60,8 +50,8 @@ contract Day0802 {
                 scoreFromRight[col + row * width] = score;
                 score = 0;
                 // look from top
-                for (int32 r = int32(row) + 1; r > 0 && r < int32(height); r++) {
-                    uint8 h = treeHeights[col + uint32(r) * width];
+                for (int256 r = int256(row) + 1; r > 0 && r < int256(height); r++) {
+                    uint8 h = treeHeights[col + uint256(r) * width];
                     score++;
                     if (h >= treeHeight) {
                         break;
@@ -70,8 +60,8 @@ contract Day0802 {
                 scoreFromTop[col + row * width] = score;
                 score = 0;
                 // look from down
-                for (int32 r = int32(row) - 1; r < int32(height) && r >= 0; r--) {
-                    uint8 h = treeHeights[col + uint32(r) * width];
+                for (int256 r = int256(row) - 1; r < int256(height) && r >= 0; r--) {
+                    uint8 h = treeHeights[col + uint256(r) * width];
                     score++;
                     if (h >= treeHeight) {
                         break;
@@ -82,11 +72,11 @@ contract Day0802 {
         }
 
         // compute score
-        uint32 maxScore = 0;
-        for (uint32 col = 0; col < width; col++) {
-            for (uint32 row = 0; row < height; row++) {
-                uint32 idx = col + row * width;
-                uint32 score = scoreFromLeft[idx] * scoreFromTop[idx] * scoreFromRight[idx] * scoreFromDown[idx];
+        uint256 maxScore = 0;
+        for (uint256 col = 0; col < width; col++) {
+            for (uint256 row = 0; row < height; row++) {
+                uint256 idx = col + row * width;
+                uint256 score = scoreFromLeft[idx] * scoreFromTop[idx] * scoreFromRight[idx] * scoreFromDown[idx];
                 if (score > maxScore) {
                     maxScore = score;
                 }
