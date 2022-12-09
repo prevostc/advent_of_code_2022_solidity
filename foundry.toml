@@ -10,12 +10,14 @@ optimizer = false
 verbosity = 2
 
 [profile.high-perf]
+cache_path = 'cache/high-perf'
 via_ir = true
 optimizer = true
 optimizer_runs = 1
-optimizer_details = { peephole = true, inliner = true, jumpdest_remover = true, order_literals = true, deduplicate = true, cse = true, constant_optimizer = true, yul = true }
+optimizer_details = { peephole = true, inliner = true, jumpdest_remover = true, order_literals = true, deduplicate = false, cse = true, constant_optimizer = true, yul = true }
 
 [profile.model_checker.model_checker]
+cache_path = 'cache/model_checker'
 contracts = { "src/AsciiLib.sol" = ["AsciiLib"]}
 engine = 'chc'
 timeout = 10000
