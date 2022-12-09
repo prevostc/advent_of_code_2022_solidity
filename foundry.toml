@@ -4,3 +4,19 @@ out = 'out'
 libs = ['lib']
 solc_version = "0.8.13"
 fs_permissions = [{ access = "read", path = "./test"}]
+
+via_ir = false
+optimizer = false
+verbosity = 2
+
+[profile.high-perf]
+via_ir = true
+optimizer = true
+optimizer_runs = 1
+optimizer_details = { peephole = true, inliner = true, jumpdest_remover = true, order_literals = true, deduplicate = true, cse = true, constant_optimizer = true, yul = true }
+
+[profile.model_checker.model_checker]
+contracts = { "src/AsciiLib.sol" = ["AsciiLib"]}
+engine = 'chc'
+timeout = 10000
+targets = ['assert', 'underflow', 'overflow', 'divByZero', 'constantCondition', 'popEmptyArray', 'outOfBounds']
