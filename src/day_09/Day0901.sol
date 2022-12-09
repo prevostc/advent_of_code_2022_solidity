@@ -185,7 +185,6 @@ contract Day0901 {
             _updateHead(move.direction);
             //_updateGridMax(head);
             _updateTail();
-            //_updateGridMax(tail);
             _markPoint(tail);
             //console2.log("===");
             //_printGrid();

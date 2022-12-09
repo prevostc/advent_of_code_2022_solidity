@@ -118,4 +118,14 @@ library AsciiLib {
 
         return grid;
     }
+
+    function uint8ToString(uint8 self) internal pure returns (string memory) {
+        uint8 asciiCode;
+        unchecked {
+            asciiCode = self + NUM_0_UINT8;
+        }
+        bytes memory result = new bytes(1);
+        result[0] = bytes1(asciiCode);
+        return string(result);
+    }
 }
