@@ -44,6 +44,13 @@ contract StringLibTest is Test {
         assertEq(input.parseUint256(), 123);
     }
 
+    function test_StringLib_parseInt256() public {
+        string memory input = "-123";
+        assertEq(input.parseInt256(), -123);
+        string memory input2 = "-21";
+        assertEq(input2.parseInt256(), -21);
+    }
+
     function test_StringLib_substring() public {
         string memory input = "ABCDE";
         assertEq(input.substring(0, 1), "A");

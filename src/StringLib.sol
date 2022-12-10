@@ -78,4 +78,11 @@ library StringLib {
         }
         return result;
     }
+
+    function parseInt256(string memory self) internal pure returns (int256) {
+        if (self.toSlice().startsWith("-".toSlice())) {
+            return (-1 * parseInt256(split(self, "-")[1]));
+        }
+        return int256(parseUint256(self));
+    }
 }
