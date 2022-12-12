@@ -7,7 +7,7 @@ import {AsciiLib} from "../AsciiLib.sol";
 
 contract Day{NUM}02 {
     using StringLib for string;
-    using AsciiLib for string;
+    using AsciiLib for bytes;
 
     function answer(string memory input) public view returns ({TANS}) {
         string[] memory lines = input.split("\n");

@@ -7,7 +7,7 @@ import {AsciiLib} from "../AsciiLib.sol";
 
 contract Day1001 {
     using StringLib for string;
-    using AsciiLib for string;
+    using AsciiLib for bytes;
 
     int256 x = 1;
     int256[] x_hist;

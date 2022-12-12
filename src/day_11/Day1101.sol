@@ -35,7 +35,7 @@ library Calculus {
 
 contract Day1101 {
     using StringLib for string;
-    using AsciiLib for string;
+    using AsciiLib for bytes;
 
     struct Monkey {
         uint256[] items;

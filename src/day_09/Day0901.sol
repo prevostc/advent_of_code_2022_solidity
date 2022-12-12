@@ -8,7 +8,7 @@ import {BitSetLib} from "../BitSetLib.sol";
 
 contract Day0901 {
     using StringLib for string;
-    using AsciiLib for string;
+    using AsciiLib for bytes;
     using BitSetLib for bytes;
 
     struct Point {

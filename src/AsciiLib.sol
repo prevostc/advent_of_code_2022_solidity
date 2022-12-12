@@ -7,9 +7,13 @@ pragma solidity ^0.8.13;
 library AsciiLib {
     bytes1 constant NL = bytes1("\n");
     bytes1 constant NUM_0_BYTES1 = bytes1("0");
-    bytes1 constant NUM_9_BYTES1 = bytes1("9");
     uint8 constant NUM_0_UINT8 = uint8(bytes1("0"));
+
+    bytes1 constant NUM_9_BYTES1 = bytes1("9");
     uint8 constant NUM_9_UINT8 = uint8(bytes1("9"));
+
+    bytes1 constant LETTER_a_BYTES = bytes1("a");
+    uint8 constant LETTER_a_UINT8 = uint8(bytes1("a"));
 
     /**
      * @dev Returns the character at the given index.
@@ -119,10 +123,57 @@ library AsciiLib {
         return grid;
     }
 
+    /**
+     * @dev Interpret the input as a grid of uint8 values where each character is a digit. (a=0, b=1, ...)
+     * @param self The string to interpret.
+     * @param width The width of the grid.
+     * @param height The height of the grid.
+     * @return The grid of uint8 values.
+     */
+    function toUint8GridFromChar(bytes memory self, uint256 width, uint256 height)
+        internal
+        pure
+        returns (uint8[] memory)
+    {
+        uint8[] memory grid = new uint8[](width * height);
+        uint256 idx = 0;
+        uint256 len = self.length;
+
+        for (uint256 i = 0; i < len;) {
+            bytes1 c = self[i];
+
+            unchecked {
+                i++;
+            }
+
+            if (c == NL) {
+                continue;
+            }
+
+            unchecked {
+                // we assume the input is valid
+                grid[idx] = uint8(c) - LETTER_a_UINT8;
+                idx++;
+            }
+        }
+
+        return grid;
+    }
+
     function uint8ToString(uint8 self) internal pure returns (string memory) {
         uint8 asciiCode;
         unchecked {
             asciiCode = self + NUM_0_UINT8;
+        }
+        bytes memory result = new bytes(1);
+        result[0] = bytes1(asciiCode);
+        return string(result);
+    }
+
+    function uint8ToLetter(uint8 self) internal pure returns (string memory) {
+        uint8 asciiCode;
+        unchecked {
+            asciiCode = self + LETTER_a_UINT8;
         }
         bytes memory result = new bytes(1);
         result[0] = bytes1(asciiCode);
