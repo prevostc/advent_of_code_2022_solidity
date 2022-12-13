@@ -54,12 +54,11 @@ contract Day1201 {
         }
 
         // init with all neighbours of start
-        (uint256[] memory idxs, bool[] memory valid) = _getNeighbours(startFrom);
-        for (uint256 i = 0; i < idxs.length; i++) {
-            if (valid[i]) {
-                currentPoints.push(Point(idxs[i] % width, idxs[i] / width));
-                visited[idxs[i]] = true;
-            }
+        Point[] memory points = _getNeighbours(startFrom);
+        for (uint256 i = 0; i < points.length; i++) {
+            Point memory p = points[i];
+            currentPoints.push(p);
+            visited[p.x + p.y * width] = true;
         }
         stepCount++;
         _printDebug();
@@ -82,85 +81,81 @@ contract Day1201 {
         }
     }
 
-    function _getNeighbours(Point memory p) public view returns (uint256[] memory idxs, bool[] memory valid) {
+    function _getNeighbours(Point memory p) public view returns (Point[] memory) {
         uint256[] memory _idxs = new uint256[](4);
         bool[] memory _valid = new bool[](4);
 
         uint256 idx = (p.y * width) + p.x;
 
         // ugly af, but no dynamic array suks
+        uint8 validCounts = 0;
 
         // left
         if (p.x > 0) {
             _idxs[0] = idx - 1;
             _valid[0] = true;
+            validCounts++;
         }
         // right
         if (p.x < width - 1) {
             _idxs[1] = idx + 1;
             _valid[1] = true;
+            validCounts++;
         }
         // up
         if (p.y > 0) {
             _idxs[2] = idx - width;
             _valid[2] = true;
+            validCounts++;
         }
         // down
         if (p.y < height - 1) {
             _idxs[3] = idx + width;
             _valid[3] = true;
+            validCounts++;
         }
 
-        return (_idxs, _valid);
-    }
-
-    function _absUintDiff(uint256 a, uint256 b) private pure returns (uint256) {
-        unchecked {
-            if (a > b) {
-                return a - b;
+        Point[] memory points = new Point[](validCounts);
+        uint8 pidx = 0;
+        for (uint8 i = 0; i < 4; i++) {
+            if (!_valid[i]) {
+                continue;
             }
-            return b - a;
+            uint256 midx = _idxs[i];
+            uint256 x = midx % width;
+            uint256 y = midx / width;
+
+            points[pidx] = Point({x: x, y: y});
+            pidx++;
         }
+
+        return points;
     }
 
     // we'll go depth first, that seems to be the easiest way to do this
 
     function step() public returns (bool) {
-        //console2.log("step %s", stepCount);
+        console2.log("step %s", stepCount);
         delete nextPoints;
 
         for (uint256 i = 0; i < currentPoints.length; i++) {
             Point memory currentPoint = currentPoints[i];
             uint256 currentVal = map[(currentPoint.y * width) + currentPoint.x];
-            //console2.log("currentPoints[%s]: (%s;%s)", i, currentPoint.x, currentPoint.y);
+            console2.log("currentPoints[%s]: (%s;%s)", i, currentPoint.x, currentPoint.y);
+            console2.log("currentVal %s", currentVal);
 
-            (uint256[] memory neighbors, bool[] memory validNeighbor) = _getNeighbours(currentPoint);
+            Point[] memory neighbours = _getNeighbours(currentPoint);
+            console2.log("neighbours.length %s", neighbours.length);
             // it's the end when there is only one neighbour and it's the end
-            uint8 count = 0;
-            bool includesEnd = false;
-            for (uint256 n = 0; n < neighbors.length; n++) {
-                if (validNeighbor[n]) {
-                    if (!visited[neighbors[n]]) {
-                        count++;
-                    }
-                    if (map[neighbors[n]] == 228) {
-                        includesEnd = true;
-                    }
-                }
-            }
-            if (count == 1 && includesEnd) {
+            if (neighbours.length == 1 && neighbours[0].x == endAt.x && neighbours[0].y == endAt.y) {
                 console2.log("found it");
                 stepCount++;
                 return true;
             }
 
-            for (uint256 n = 0; n < neighbors.length; n++) {
-                if (!validNeighbor[n]) {
-                    continue;
-                }
-                uint256 idx = neighbors[n];
-                uint256 x = idx % width;
-                uint256 y = idx / width;
+            for (uint256 n = 0; n < neighbours.length; n++) {
+                Point memory p = neighbours[0];
+                uint256 idx = p.x + p.y * width;
                 uint8 val = map[idx];
                 if (currentVal < val && val - currentVal > 1) {
                     continue;
@@ -169,7 +164,7 @@ contract Day1201 {
                     continue;
                 }
                 visited[idx] = true;
-                nextPoints.push(Point(x, y));
+                nextPoints.push(p);
             }
         }
 
@@ -178,7 +173,7 @@ contract Day1201 {
         currentPoints = nextPoints;
         stepCount++;
 
-        //_printDebug();
+        _printDebug();
         return false;
     }
 
